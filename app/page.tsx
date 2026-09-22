@@ -1,65 +1,57 @@
+import Slider from "./_components/Slider";
+import { getSlider, getCategorylist, getProductList } from "./utils/Api";
+import CategoryList from "./_components/CategoryList";
+import Product from "./_components/Product";
+
+
 import Image from "next/image";
 
-export default function Home() {
+export default async function Home() {
+  let sliderList = [];
+  let categories = [];
+  let projects = [];
+
+  try {
+    sliderList = await getSlider();
+  } catch (error) {
+    console.error("Failed to fetch sliders:", error);
+  }
+
+
+
+  try {
+    categories = await getCategorylist();
+  } catch (error) {
+    console.error("Failed to fetch categories:", error);
+  }
+
+
+  
+  try {
+    projects = await getProductList();
+  } catch (error) {
+    console.error("Failed to fetch ProductList:", error);
+  }
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
+    <div className="px-16 py-10  mt-3 bg-amber-550 rounded-2xl  ">
+      <Slider sliderList={sliderList} />
+      <CategoryList categoryList={categories} />
+      <Product ProductList={projects} />
+     
+
+      <div className=" flex flex-col relative w-full  h-[450] ml-4 mt-8  rounded-2xl overflow-hidden ">
         <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+          alt="joh"
+          src="/150.png"
+          width={1000}
+          height={0}
+          unoptimized
+          className="object-center w-full p-1 border border-amber-600 rounded-2xl "
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+
+       
+      </div>
+      
     </div>
   );
 }
